@@ -128,6 +128,16 @@ class Concat(nn.Module):
     def forward(self, *xs): return torch.cat(xs, 1)
 
 
+class CallConcat(nn.Module):
+
+    def __init__(self, *args):
+        super().__init__()
+        self.operators = nn.ModuleList(args)
+
+    def forward(self, x, dim=1):
+        return torch.cat([op(x) for op in self.operators], dim=dim)
+
+
 class Correct(nn.Module):
 
     def forward(self, classifier, target):
