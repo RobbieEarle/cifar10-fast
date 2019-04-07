@@ -27,8 +27,8 @@ def warmup_cudnn(model, batch_size):
     input = torch.Tensor(np.random.rand(batch_size, 3, 32, 32))
     target = torch.LongTensor(np.random.randint(0, 10, batch_size))
     if device in ('cpu', torch.device('cpu')):
-        print('Warmup -> double')
-        input = input.double()
+        print('Warmup -> float')
+        input = input.float()
     else:
         print('Warmup -> half')
         input = input.cuda().half()
@@ -85,7 +85,7 @@ class Batches():
         if self.set_random_choices:
             self.dataset.set_random_choices()
         return (
-            {'input': x.to(device).double() if device in ('cpu', torch.device('cpu')) else x.to(device).half(),
+            {'input': x.to(device).float() if device in ('cpu', torch.device('cpu')) else x.to(device).half(),
              'target': y.to(device).long()}
             for (x, y) in self.dataloader
         )
